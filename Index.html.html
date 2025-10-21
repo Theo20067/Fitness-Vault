@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>90-Day Fitness Coach Content Vault</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+        
+        const FitnessContentVault = () => {
+          const [selectedCategory, setSelectedCategory] = useState('all');
+          const [selectedWeek, setSelectedWeek] = useState(null);
+          const [copiedId, setCopiedId] = useState(null);
+          const [searchTerm, setSearchTerm] = useState('');
+          const [expandedSections, setExpandedSections] = useState({});
+
+          const categories = [
+            { id: 'all', name: 'All Content', icon: '📚' },
+            { id: 'captions', name: 'Social Captions', icon: '📱' },
+            { id: 'emails', name: 'Email Templates', icon: '📧' },
+            { id: 'scripts', name: 'Video Scripts', icon: '🎥' },
+            { id: 'stories', name: 'Story Ideas', icon: '⚡' }
+          ];
+
+          const contentLibrary = {
+            week1: {
+              title: "Week 1-2: Foundation & Trust Building",
+              captions: [
+                {
+                  id: 'c1',
+                  platform: 'Instagram',
+                  hook: "The #1 mistake I see new gym-goers make...",
+                  body: "They try to do EVERYTHING at once.\n\nCardio ✅\nWeights ✅\nYoga ✅\nMeal prep ✅\n\nResult? Burnout in 2 weeks.\n\nHere's what actually works:\n\n→ Pick ONE strength workout (3x/week)\n→ Add 10 min walks daily\n→ Master 5 simple meals\n\nThat's it. Master the basics first.\n\nConsistency > Complexity\n\nDM me 'START' if you need a simple beginner plan.",
+                  hashtags: "#FitnessCoach #GymTips #BeginnerFitness #WorkoutMotivation"
+                },
+                {
+                  id: 'c2',
+                  platform: 'Instagram',
+                  hook: "Your body doesn't care about your excuses.",
+                  body: "But it DOES respond to consistency.\n\nMissed a workout? → Do 15 minutes\nTraveling? → Bodyweight workout\nTired? → Light mobility work\n\nSomething is ALWAYS better than nothing.\n\nThe people who transform aren't perfect.\nThey just don't quit.\n\nWhat's your backup plan when life gets busy?\n\nComment below 👇",
+                  hashtags: "#FitnessMotivation #ConsistencyIsKey #WorkoutTips #FitnessJourney"
+                },
+                {
+                  id: 'c3',
+                  platform: 'Facebook',
+                  hook: "Can we talk about rest days for a second?",
+                  body: "I see so many people afraid to take them.\n\nThey think: \"If I rest, I'll lose progress.\"\n\nBut here's the truth most coaches won't tell you:\n\nYour muscles don't grow IN the gym.\nThey grow OUTSIDE the gym. During rest.\n\n🔹 Rest days reduce injury risk by 30%\n🔹 They improve performance in your next workout\n🔹 They prevent mental burnout\n\nYour rest days should be:\n→ Light walks\n→ Stretching/yoga\n→ Active recovery (swimming, cycling)\n\nNot Netflix and takeout all day (though once in a while is fine! 😉)\n\nHow many rest days do you take per week? Drop a number below!",
+                  hashtags: "#FitnessTips #RestDay #RecoveryMatters #FitnessCoaching"
+                }
+              ],
+              emails: [
+                {
+                  id: 'e1',
+                  subject: "Your workout plan is missing this...",
+                  preview: "And it's not what you think",
+                  body: `Hey [Name],
+
+Quick question: Do you track your rest periods?
+
+Most people track sets, reps, and weight.
+
+But rest periods? They ignore them completely.
+
+Here's why that's a problem:
+
+→ Too short = incomplete recovery = weaker sets
+→ Too long = losing muscle activation = wasted time
+
+The sweet spot for most goals:
+• Strength: 3-5 minutes
+• Hypertrophy: 60-90 seconds
+• Conditioning: 30-45 seconds
+
+This ONE change can improve your results by 20-30%.
+
+Try it this week and let me know what you notice.
+
+To your gains,
+[Your Name]
+
+P.S. Need a personalized program with ALL the details dialed in? Reply "PROGRAM" and I'll send you the details.`
+                }
+              ],
+              scripts: [
+                {
+                  id: 's1',
+                  title: "5 Form Mistakes Killing Your Gains",
+                  duration: "60 seconds",
+                  script: `[HOOK - 0:00]
+"These 5 form mistakes are stealing your gains..."
+
+[VISUAL: You doing wrong form, then correct]
+
+[BODY - 0:05]
+"Number 1: Ego lifting
+If you're swinging the weight, you're training your ego, not your muscles."
+
+[Show proper controlled rep]
+
+"Number 2: Partial range of motion
+Half reps = half results. Full ROM activates 40% more muscle fibers."
+
+[Demo full vs partial squat]
+
+"Number 3: No mind-muscle connection
+Stop going through the motions. FEEL the muscle working."
+
+[Close up of muscle contraction]
+
+"Number 4: Rushing through reps
+Time under tension matters. Control the eccentric."
+
+[Slow negative rep demo]
+
+"Number 5: Ignoring your core
+Every lift is a core exercise. Brace like someone's about to punch you."
+
+[Core bracing demo]
+
+[CTA - 0:50]
+"Want a free form check? Drop a 💪 in the comments and I'll reply with tips."
+
+[END SCREEN]
+"Follow for more training tips"`
+                }
+              ],
+              stories: [
+                {
+                  id: 'st1',
+                  type: 'Poll',
+                  content: "What's your biggest gym struggle?",
+                  options: ["Staying consistent", "Knowing what to do", "Diet", "Motivation"]
+                },
+                {
+                  id: 'st2',
+                  type: 'Tip',
+                  content: "PRO TIP: Take a pre-workout photo every Monday. The accountability is UNMATCHED. 📸"
+                },
+                {
+                  id: 'st3',
+                  type: 'Question Box',
+                  content: "Drop your fitness questions below 👇 Answering all of them today!"
+                }
+              ]
+            },
+            week3: {
+              title: "Week 3-4: Value Delivery & Authority",
+              captions: [
+                {
+                  id: 'c4',
+                  platform: 'Instagram',
+                  hook: "Let me save you 6 months of wasted effort...",
+                  body: "Here are the only 6 exercises you need:\n\n1. Squat (legs + core)\n2. Deadlift (posterior chain)\n3. Bench Press (chest + triceps)\n4. Pull-ups (back + biceps)\n5. Overhead Press (shoulders)\n6. Plank (core stability)\n\nEverything else is just assistance work.\n\nMaster these six. Do them consistently.\nThat's 90% of your results.\n\nThe fitness industry wants to complicate this.\nI'm here to simplify it.\n\nSave this post for later 🔖\nShare it with someone who needs to hear this ➡️",
+                  hashtags: "#StrengthTraining #FitnessBasics #WorkoutProgram #LiftingTips"
+                },
+                {
+                  id: 'c5',
+                  platform: 'Instagram',
+                  hook: "Unpopular opinion: You don't need more workouts.",
+                  body: "You need more RECOVERY.\n\nI see it every day:\n\n❌ 6-7 gym days per week\n❌ 5 hours of sleep\n❌ High stress job\n❌ Poor nutrition\n\nThen wondering why they're not progressing...\n\nYour body needs resources to build muscle:\n✅ 7-9 hours of sleep\n✅ Adequate protein (0.8-1g per lb)\n✅ Stress management\n✅ Strategic rest days\n\nMore isn't always better.\nBetter is better.\n\nWhat's your current recovery routine?\nBe honest 👇",
+                  hashtags: "#RecoveryDay #FitnessRecovery #MuscleGrowth #TrainSmart"
+                }
+              ],
+              emails: [
+                {
+                  id: 'e2',
+                  subject: "Why you're not seeing results (it's not your fault)",
+                  preview: "The missing piece nobody talks about",
+                  body: `Hey [Name],
+
+You're doing everything "right":
+
+✓ Hitting the gym 4x/week
+✓ Eating healthy
+✓ Staying consistent
+
+But the scale won't budge. Sound familiar?
+
+Here's what's probably happening:
+
+You're under-recovering.
+
+Your body builds muscle during REST, not during training.
+
+Think of it like this:
+Training = tearing down
+Recovery = building back stronger
+
+If you're constantly tearing down without proper recovery, you're just spinning your wheels.
+
+The fix:
+→ 7-9 hours of sleep (non-negotiable)
+→ 120-150g protein daily
+→ 2-3 true rest days per week
+→ Manage your stress
+
+I know it's not sexy. But it works.
+
+Try this for 3 weeks and watch what happens.
+
+Your coach,
+[Your Name]
+
+P.S. Need help building a recovery protocol? Hit reply and I'll send you my free Recovery Optimization Guide.`
+                }
+              ],
+              scripts: [
+                {
+                  id: 's2',
+                  title: "What I Eat in a Day (High Protein)",
+                  duration: "90 seconds",
+                  script: `[HOOK - 0:00]
+"Here's how I hit 180g of protein without meal prep..."
+
+[MORNING - 0:05]
+"Breakfast: Greek yogurt bowl
+→ 2 cups yogurt (40g protein)
+→ Granola + berries
+→ 510 calories, 40g protein"
+
+[Show you eating/preparing]
+
+[LUNCH - 0:25]
+"Lunch: Chipotle burrito bowl
+→ Double chicken
+→ Rice, beans, veggies
+→ 750 calories, 70g protein"
+
+[B-roll of bowl]
+
+[SNACK - 0:40]
+"Snack: Protein shake
+→ 2 scoops whey
+→ Banana + peanut butter
+→ 400 calories, 50g protein"
+
+[Making shake]
+
+[DINNER - 0:55]
+"Dinner: Salmon + sweet potato
+→ 8oz salmon
+→ Roasted veggies
+→ 520 calories, 55g protein"
+
+[Plated meal]
+
+[TOTAL - 1:15]
+"Total: 2,180 calories, 215g protein
+→ Zero meal prep
+→ Flexible
+→ Delicious"
+
+[CTA - 1:25]
+"Want my full meal plan? Link in bio 🔗"
+
+[END]`
+                }
+              ],
+              stories: [
+                {
+                  id: 'st4',
+                  type: 'Before/After',
+                  content: "Client transformation alert! 🔥 12 weeks. Swipe for the story →"
+                },
+                {
+                  id: 'st5',
+                  type: 'Educational',
+                  content: "MYTH: Lifting makes women bulky ❌\nTRUTH: Women don't have enough testosterone to get 'bulky' naturally. Lifting creates that toned, lean look you want. 💪"
+                }
+              ]
+            },
+            week5: {
+              title: "Week 5-8: Engagement & Community",
+              captions: [
+                {
+                  id: 'c6',
+                  platform: 'Instagram',
+                  hook: "Real talk: I almost quit coaching last year.",
+                  body: "I was burned out. Doubting myself.\nWondering if I was even making a difference.\n\nThen I got a message from a client:\n\n\"You changed my life. I can play with my kids without getting winded. Thank you.\"\n\nThat's when it clicked.\n\nThis isn't about perfect abs or PRs.\nIt's about giving people their LIFE back.\n\nIf you're struggling right now, remember:\n\nYour transformation isn't just physical.\nIt's mental. Emotional. Spiritual.\n\nAnd you're worth the effort.\n\nKeep going. I'm here with you. 💙\n\nDrop a ❤️ if you needed to hear this today.",
+                  hashtags: "#FitnessJourney #Motivation #TransformationStory #FitnessCoach"
+                },
+                {
+                  id: 'c7',
+                  platform: 'Facebook',
+                  hook: "QUESTION: How long should you rest between sets?",
+                  body: "I see this debate ALL the time in my DMs.\n\nSo let's settle it once and for all:\n\nIT DEPENDS ON YOUR GOAL. 🎯\n\n💪 Building Strength?\n→ 3-5 minutes\n→ Full recovery = maximum force production\n→ Think powerlifters\n\n🏋️ Building Muscle?\n→ 60-90 seconds\n→ Metabolic stress = growth stimulus\n→ That muscle pump feeling\n\n🔥 Fat Loss / Conditioning?\n→ 30-45 seconds\n→ Keep heart rate elevated\n→ Maximize calorie burn\n\n⚡ Circuit Training?\n→ Minimal rest (move between exercises)\n→ Cardio + strength benefits\n\nThe \"perfect\" rest period is the one aligned with YOUR goal.\n\nNot your buddy's. Not some influencer's. YOURS.\n\nWhat's your primary goal right now? Comment below and I'll tell you what to focus on! 👇",
+                  hashtags: "#FitnessTips #WorkoutAdvice #GymTips #StrengthTraining"
+                }
+              ],
+              emails: [
+                {
+                  id: 'e3',
+                  subject: "The 80/20 rule that changed my physique",
+                  preview: "And it'll change yours too",
+                  body: `Hey [Name],
+
+Want to know the real secret to sustainable fitness?
+
+It's not sexy. It's not complicated.
+
+It's the 80/20 rule.
+
+Here's how I apply it:
+
+🎯 80% whole foods, 20% whatever I want
+🎯 80% consistent training, 20% flexibility
+🎯 80% on point, 20% life happens
+
+This keeps me:
+→ Sane
+→ Social
+→ Sustainable
+
+The people who try to be 100% perfect?
+
+They burn out. Every. Single. Time.
+
+The people who embrace 80/20?
+
+They're still crushing it 5 years later.
+
+Life's too short to be miserable over broccoli.
+
+Aim for progress, not perfection.
+
+Your coach,
+[Your Name]
+
+P.S. Struggling to find YOUR balance? Reply to this email and let's chat. I have a few coaching spots opening up next month.`
+                }
+              ],
+              scripts: [
+                {
+                  id: 's3',
+                  title: "Debunking Common Gym Myths",
+                  duration: "45 seconds",
+                  script: `[HOOK - 0:00]
+"Let's debunk the top 3 gym myths RIGHT NOW..."
+
+[MYTH 1 - 0:05]
+"Myth #1: Cardio kills gains
+Truth: Cardio actually IMPROVES recovery and doesn't hurt muscle growth if done right."
+
+[Quick cardio clip]
+
+[MYTH 2 - 0:18]
+"Myth #2: You need to feel sore to grow
+Truth: Soreness = novel stimulus, NOT muscle growth. You can grow without being crippled."
+
+[Shaking head, showing normal workout]
+
+[MYTH 3 - 0:30]
+"Myth #3: Abs are made in the kitchen
+Truth: Abs are REVEALED in the kitchen. Built in the gym. You need both."
+
+[Quick ab exercise demo]
+
+[CTA - 0:40]
+"What myth should I bust next? Comment below 👇"
+
+[END]`
+                }
+              ],
+              stories: [
+                {
+                  id: 'st6',
+                  type: 'Engagement',
+                  content: "Reply with your current goal and I'll send you ONE tip to get there faster 🎯"
+                },
+                {
+                  id: 'st7',
+                  type: 'Behind the Scenes',
+                  content: "My own workout from today. Keeping it real - not every session is perfect and that's okay 💯"
+                }
+              ]
+            }
+          };
+
+          const handleCopy = (text, id) => {
+            navigator.clipboard.writeText(text);
+            setCopiedId(id);
+            setTimeout(() => setCopiedId(null), 2000);
+          };
+
+          const toggleSection = (section) => {
+            setExpandedSections(prev => ({
+              ...prev,
+              [section]: !prev[section]
+            }));
+          };
+
+          const filteredContent = Object.entries(contentLibrary).filter(([key, week]) => {
+            if (selectedWeek && key !== selectedWeek) return false;
+            if (searchTerm) {
+              const searchLower = searchTerm.toLowerCase();
+              return JSON.stringify(week).toLowerCase().includes(searchLower);
+            }
+            return true;
+          });
+
+          const renderContent = (items, type) => {
+            if (!items || items.length === 0) return null;
+
+            return items.map((item) => (
+              React.createElement('div', {
+                key: item.id,
+                className: "bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+              }, [
+                type === 'captions' && React.createElement('div', { key: 'caption-content' }, [
+                  React.createElement('div', {
+                    key: 'header',
+                    className: "flex justify-between items-start mb-3"
+                  }, [
+                    React.createElement('div', { key: 'title-section' }, [
+                      React.createElement('span', {
+                        key: 'platform',
+                        className: "text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded"
+                      }, item.platform),
+                      React.createElement('h4', {
+                        key: 'hook',
+                        className: "font-bold text-gray-800 mt-2"
+                      }, item.hook)
+                    ]),
+                    React.createElement('button', {
+                      key: 'copy-btn',
+                      onClick: () => handleCopy(`${item.hook}\n\n${item.body}\n\n${item.hashtags}`, item.id),
+                      className: "text-gray-500 hover:text-purple-600 transition-colors"
+                    }, copiedId === item.id ? '✓' : '📋')
+                  ]),
+                  React.createElement('p', {
+                    key: 'body',
+                    className: "text-sm text-gray-700 whitespace-pre-line mb-3"
+                  }, item.body),
+                  React.createElement('p', {
+                    key: 'hashtags',
+                    className: "text-xs text-blue-600"
+                  }, item.hashtags)
+                ]),
+
+                type === 'emails' && React.createElement('div', { key: 'email-content' }, [
+                  React.createElement('div', {
+                    key: 'header',
+                    className: "flex justify-between items-start mb-3"
+                  }, [
+                    React.createElement('div', {
+                      key: 'title',
+                      className: "flex-1"
+                    }, [
+                      React.createElement('h4', {
+                        key: 'subject',
+                        className: "font-bold text-gray-800"
+                      }, item.subject),
+                      React.createElement('p', {
+                        key: 'preview',
+                        className: "text-sm text-gray-500 italic"
+                      }, item.preview)
+                    ]),
+                    React.createElement('button', {
+                      key: 'copy-btn',
+                      onClick: () => handleCopy(`Subject: ${item.subject}\n\n${item.body}`, item.id),
+                      className: "text-gray-500 hover:text-purple-600 transition-colors ml-4"
+                    }, copiedId === item.id ? '✓' : '📋')
+                  ]),
+                  React.createElement('p', {
+                    key: 'body',
+                    className: "text-sm text-gray-700 whitespace-pre-line"
+                  }, item.body)
+                ]),
+
+                type === 'scripts' && React.createElement('div', { key: 'script-content' }, [
+                  React.createElement('div', {
+                    key: 'header',
+                    className: "flex justify-between items-start mb-3"
+                  }, [
+                    React.createElement('div', { key: 'title-section' }, [
+                      React.createElement('h4', {
+                        key: 'title',
+                        className: "font-bold text-gray-800"
+                      }, item.title),
+                      React.createElement('span', {
+                        key: 'duration',
+                        className: "text-xs text-gray-500"
+                      }, item.duration)
+                    ]),
+                    React.createElement('button', {
+                      key: 'copy-btn',
+                      onClick: () => handleCopy(item.script, item.id),
+                      className: "text-gray-500 hover:text-purple-600 transition-colors"
+                    }, copiedId === item.id ? '✓' : '📋')
+                  ]),
+                  React.createElement('p', {
+                    key: 'script',
+                    className: "text-sm text-gray-700 whitespace-pre-line font-mono text-xs bg-gray-50 p-3 rounded"
+                  }, item.script)
+                ]),
+
+                type === 'stories' && React.createElement('div', { key: 'story-content' }, [
+                  React.createElement('div', {
+                    key: 'header',
+                    className: "flex justify-between items-start mb-2"
+                  }, [
+                    React.createElement('span', {
+                      key: 'type',
+                      className: "text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded"
+                    }, item.type),
+                    React.createElement('button', {
+                      key: 'copy-btn',
+                      onClick: () => handleCopy(item.content + (item.options ? '\n\nOptions:\n' + item.options.join('\n') : ''), item.id),
+                      className: "text-gray-500 hover:text-purple-600 transition-colors"
+                    }, copiedId === item.id ? '✓' : '📋')
+                  ]),
+                  React.createElement('p', {
+                    key: 'content',
+                    className: "text-sm text-gray-700 mb-2"
+                  }, item.content),
+                  item.options && React.createElement('div', {
+                    key: 'options',
+                    className: "flex flex-wrap gap-2 mt-2"
+                  }, item.options.map((opt, idx) => 
+                    React.createElement('span', {
+                      key: idx,
+                      className: "text-xs bg-gray-100 px-2 py-1 rounded"
+                    }, opt)
+                  ))
+                ])
+              ])
+            ));
+          };
+
+          return React.createElement('div', {
+            className: "min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 p-6"
+          }, 
+            React.createElement('div', { className: "max-w-6xl mx-auto" }, [
+              // Header
+              React.createElement('div', {
+                key: 'header',
+                className: "bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 mb-8 text-white shadow-xl"
+              }, [
+                React.createElement('div', {
+                  key: 'title-section',
+                  className: "flex items-center gap-3 mb-4"
+                }, [
+                  React.createElement('div', { key: 'icon', className: "text-4xl" }, '📅'),
+                  React.createElement('div', { key: 'text' }, [
+                    React.createElement('h1', {
+                      key: 'title',
+                      className: "text-3xl font-bold"
+                    }, '90-Day Fitness Coach Content Vault'),
+                    React.createElement('p', {
+                      key: 'value',
+                      className: "text-purple-100 text-sm mt-1"
+                    }, 'Value: $497')
+                  ])
+                ]),
+                React.createElement('p', {
+                  key: 'description',
+                  className: "text-lg opacity-90"
+                }, 'Pre-written captions, email templates, and video scripts to fill your content calendar for 3 months'),
+                React.createElement('div', {
+                  key: 'stats',
+                  className: "grid grid-cols-3 gap-4 mt-6"
+                }, [
+                  React.createElement('div', {
+                    key: 'stat1',
+                    className: "bg-white/10 backdrop-blur-sm rounded-lg p-3"
+                  }, [
+                    React.createElement('div', { key: 'number', className: "text-2xl font-bold" }, '90+'),
+                    React.createElement('div', { key: 'label', className: "text-sm opacity-90" }, 'Content Pieces')
+                  ]),
+                  React.createElement('div', {
+                    key: 'stat2',
+                    className: "bg-white/10 backdrop-blur-sm rounded-lg p-3"
+                  }, [
+                    React.createElement('div', { key: 'number', className: "text-2xl font-bold" }, '4'),
+                    React.createElement('div', { key: 'label', className: "text-sm opacity-90" }, 'Content Types')
+                  ]),
+                  React.createElement('div', {
+                    key: 'stat3',
+                    className: "bg-white/10 backdrop-blur-sm rounded-lg p-3"
+                  }, [
+                    React.createElement('div', { key: 'number', className: "text-2xl font-bold" }, '100%'),
+                    React.createElement('div', { key: 'label', className: "text-sm opacity-90" }, 'Copy & Paste')
+                  ])
+                ])
+              ]),
+
+              // Search and Filters
+              React.createElement('div', {
+                key: 'filters',
+                className: "bg-white rounded-xl p-6 mb-6 shadow-md"
+              }, [
+                React.createElement('div', {
+                  key: 'search-row',
+                  className: "flex flex-col sm:flex-row gap-4"
+                }, [
+                  React.createElement('div', {
+                    key: 'search',
+                    className: "flex-1 relative"
+                  }, [
+                    React.createElement('span', {
+                      key: 'icon',
+                      className: "absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    }, '🔍'),
+                    React.createElement('input', {
+                      key: 'input',
+                      type: 'text',
+                      placeholder: 'Search content...',
+                      value: searchTerm,
+                      onChange: (e) => setSearchTerm(e.target.value),
+                      className: "w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    })
+                  ]),
+                  React.createElement('select', {
+                    key: 'week-select',
+                    value: selectedWeek || '',
+                    onChange: (e) => setSelectedWeek(e.target.value || null),
+                    className: "px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  }, [
+                    React.createElement('option', { key: 'all', value: '' }, 'All Weeks'),
+                    React.createElement('option', { key: 'week1', value: 'week1' }, 'Week 1-2'),
+                    React.createElement('option', { key: 'week3', value: 'week3' }, 'Week 3-4'),
+                    React.createElement('option', { key: 'week5', value: 'week5' }, 'Week 5-8')
+                  ])
+                ]),
+                React.createElement('div', {
+                  key: 'categories',
+                  className: "flex flex-wrap gap-2 mt-4"
+                }, categories.map(cat => 
+                  React.createElement('button', {
+                    key: cat.id,
+                    onClick: () => setSelectedCategory(cat.id),
+                    className: `px-4 py-2 rounded-lg font-medium transition-all ${
+                      selectedCategory === cat.id
+                        ? 'bg-purple-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`
+                  }, [
+                    React.createElement('span', { key: 'icon', className: "mr-2" }, cat.icon),
+                    cat.name
